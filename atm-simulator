@@ -1,0 +1,102 @@
+using System;
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        // Display program title and author
+        
+
+        double balance = 1000.00; // starting balance
+        int choice;
+
+        // Main program loop
+        while (true)
+        {
+        Menu:
+            Console.WriteLine("Menu:");
+            Console.WriteLine("1. Check Balance");
+            Console.WriteLine("2. Deposit Money");
+            Console.WriteLine("3. Withdraw Money");
+            Console.WriteLine("4. Exit\n");
+            Console.Write("Enter your choice: ");
+
+            // Validate user input
+            if (!int.TryParse(Console.ReadLine(), out choice))
+            {
+                Console.WriteLine("Invalid input! Please enter a number between 1 and 4.\n");
+                goto Menu;
+            }
+
+            switch (choice)
+            {
+                case 1:
+                    // Check Balance
+                    Console.WriteLine($"Your current balance is ${balance:F2}\n");
+                    break;
+
+                case 2:
+                    // Deposit Money
+                    Console.Write("Enter the amount to deposit: ");
+                    if (double.TryParse(Console.ReadLine(), out double depositAmount))
+                    {
+                        if (depositAmount > 0)
+                        {
+                            balance += depositAmount;
+                            Console.WriteLine($"Deposit successful! Your new balance is ${balance:F2}\n");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Invalid amount. Deposit must be greater than zero.\n");
+                            continue; // re-enter
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Invalid input. Please enter a numeric value.\n");
+                        continue;
+                    }
+                    break;
+
+                case 3:
+                    // Withdraw Money
+                    Console.Write("Enter the amount to withdraw: ");
+                    if (double.TryParse(Console.ReadLine(), out double withdrawAmount))
+                    {
+                        if (withdrawAmount > 0 && withdrawAmount <= balance)
+                        {
+                            balance -= withdrawAmount;
+                            Console.WriteLine($"Withdrawal successful! Your new balance is ${balance:F2}\n");
+                        }
+                        else if (withdrawAmount > balance)
+                        {
+                            Console.WriteLine("Insufficient balance! Please enter a smaller amount.\n");
+                            continue; // re-enter
+                        }
+                        else
+                        {
+                            Console.WriteLine("Invalid amount. Withdrawal must be greater than zero.\n");
+                            continue; // re-enter
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Invalid input. Please enter a numeric value.\n");
+                        continue;
+                    }
+                    break;
+
+                case 4:
+                    // Exit
+                    Console.WriteLine("Thank you for using the ATM Simulator!");
+                    break;
+
+                default:
+                    Console.WriteLine("Invalid choice! Please try again.\n");
+                    goto Menu;
+            }
+
+            if (choice == 4) break; // Exit loop
+        }
+    }
+}
